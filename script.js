@@ -50,7 +50,7 @@ const tableHead = document.querySelector("thead");
 const headerRow = tableHead.insertRow();
 // Add the th's and their text content
 tableHeaders.forEach((colObj) => {
-  let th = document.createElement("th");
+  const th = document.createElement("th");
   th.textContent = colObj.header;
   headerRow.appendChild(th);
 });
@@ -63,6 +63,7 @@ const tableBody = document.querySelector("tbody");
 
 function createBookRowData(book) {
   const newRow = tableBody.insertRow();
+  // Insert a cell for each of the table header data
   tableHeaders.forEach((tableHeaderData) => {
     const cellData = newRow.insertCell();
 
@@ -73,9 +74,25 @@ function createBookRowData(book) {
       cellData.textContent = book[tableHeaderData.bookProperty];
     }
   });
+
+  // Add the remove book button to the end of the row
+  const removeButton = document.createElement("button");
+  removeButton.innerText = "Remove";
+  removeButton.className = "remove-book-button";
+  removeButton.id = book.id;
+  removeButton.type = "button";
+  newRow.appendChild(removeButton);
 }
 
-function showInitialBooks() {
+function removeBook(bookId) {
+  // Find the book in the myLibrary array that has the same id
+  // Remove it
+  // Clear the table
+  // Repopulate the table
+}
+
+// Populate table based on the books in the library
+function populateTable() {
   myLibrary.forEach((book) => {
     createBookRowData(book);
   });
@@ -107,4 +124,4 @@ newBookForm.addEventListener("submit", (e) => {
   newBookForm.reset();
 });
 
-showInitialBooks();
+populateTable();
