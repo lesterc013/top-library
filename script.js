@@ -22,7 +22,7 @@ Book.prototype.getInfo = function () {
 function addBookToLibrary(title, author, numPages) {
   let book = new Book(title, author, numPages);
   myLibrary.push(book);
-  console.log(`New book added to library. Info: ${book.getInfo()}`);
+  // console.log(`New book added to library. Info: ${book.getInfo()}`);
 }
 
 const myLibrary = [];
@@ -60,7 +60,7 @@ const tableBody = document.querySelector("tbody");
 
 // // Write a function to display each book on the html page
 // // Gonna use a table to practice displaying standard data
-function displayBookData() {
+function addBookData() {
   let count = 1;
   myLibrary.forEach((book) => {
     // Create the new tr
@@ -80,4 +80,15 @@ function displayBookData() {
   });
 }
 
-displayBookData();
+addBookData();
+
+// CONTROLLING OPEN AND CLOSING THE MODAL
+const newBookModal = document.querySelector(".new-book-modal");
+const openModalButton = document.querySelector(".open-modal-button");
+const closeModalButton = document.querySelector(".close-modal-button");
+
+openModalButton.addEventListener("click", () => {
+  newBookModal.showModal();
+});
+
+closeModalButton.addEventListener("click", () => newBookModal.close());
