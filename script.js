@@ -1,5 +1,5 @@
 // Write a constructor for making “Book” objects. We will revisit this in the next project. Your book objects should have the book’s title, author, the number of pages, and whether or not you have read the book.
-function Book(title, author, numPages) {
+function Book(title, author, numPages, hasRead) {
   if (!new.target) {
     throw Error("Must use new operator to create Book object.");
   }
@@ -8,7 +8,7 @@ function Book(title, author, numPages) {
   this.title = title;
   this.author = author;
   this.numPages = numPages;
-  this.hasRead = false;
+  this.hasRead = hasRead;
 }
 
 // To provide some info on the book
@@ -19,10 +19,10 @@ Book.prototype.getInfo = function () {
 // add a separate function to the script (not inside the constructor) that can take some arguments,
 // create a book from those arguments,
 // and store the new book object into an array.
-function addBookToLibrary(title, author, numPages) {
-  let book = new Book(title, author, numPages);
+function addBookToLibrary(title, author, numPages, hasRead = false) {
+  let book = new Book(title, author, numPages, hasRead);
   myLibrary.push(book);
-  // console.log(`New book added to library. Info: ${book.getInfo()}`);
+  return book;
 }
 
 const myLibrary = [];
@@ -93,6 +93,18 @@ openModalButton.addEventListener("click", () => {
 closeModalButton.addEventListener("click", () => newBookModal.close());
 
 // ON MODAL FORM SUBMIT
-// TODO
+const newBookForm = document.querySelector("#new-book-form");
+newBookForm.addEventListener("submit", (e) => {
+  const formData = new FormData(newBookForm);
+  const bookParams = [
+    formData.get("title"),
+    formData.get("author"),
+    parseInt(formData.get("number-pages")),
+    formData.get("read-before"),
+  ];
+  const newBook = addBookToLibrary(...bookParams);
+  createBookRowData(newBook);
+  newBookForm.reset();
+});
 
 showInitialBooks();
