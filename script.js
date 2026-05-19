@@ -19,7 +19,7 @@ Book.prototype.toggleRead = function () {
   this.hasRead = !this.hasRead;
 };
 
-const myLibrary = {};
+const myLibrary = new Map();
 
 // To dynamically control the table header and the data for that header
 const tableHeaders = [
@@ -33,7 +33,7 @@ const tableHeaders = [
 function addBookToLibrary(title, author, numPages, hasRead = false) {
   const book = new Book(title, author, numPages, hasRead);
   const id = crypto.randomUUID();
-  myLibrary[id] = book;
+  myLibrary.set(id, book);
   return [id, book];
 }
 
@@ -56,7 +56,7 @@ function createBookRowData(bookId, book) {
   // Whats the event listener?
   toggleReadButton.addEventListener("click", (e) => {
     // Find the Book based on the book-id in the myLibrary
-    const book = myLibrary[e.target.getAttribute("book-id")];
+    const book = myLibrary.get(e.target.getAttribute("book-id"));
     // Call the Book's specific method to toggle the read status
     book.toggleRead();
     // Repopulate the table?
@@ -80,14 +80,15 @@ function createBookRowData(bookId, book) {
 function populateTable() {
   // Clear the table
   tableBody.replaceChildren();
-  Object.keys(myLibrary).forEach((id) => {
-    createBookRowData(id, myLibrary[id]);
-  });
+
+  for (const [id, book] of myLibrary) {
+    createBookRowData(id, book);
+  }
 }
 
 // To remove a book from the library, then repopulate the table.
 function removeBook(bookId) {
-  delete myLibrary[bookId];
+  myLibrary.delete(bookId);
   // Repopulate the table
   populateTable();
 }
@@ -128,9 +129,6 @@ tableHeaders.forEach((colObj) => {
   th.textContent = colObj.header;
   headerRow.appendChild(th);
 });
-
-// Global count of books
-let count = 1;
 
 // Initial population of books
 const tableBody = document.querySelector("tbody");
