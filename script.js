@@ -43,14 +43,16 @@ function createBookRowData(bookId, book) {
     cellData.textContent = book[tableHeaderData.bookProperty];
   });
 
+  // Add a toggle read button here
+
   // Add the remove book button to the end of the row - id is the corresponding bookId
   const removeButton = document.createElement("button");
   removeButton.innerText = "Remove";
   removeButton.className = "remove-book-button";
-  removeButton.id = bookId;
+  removeButton.setAttribute("book-id", bookId);
   removeButton.type = "button";
   removeButton.addEventListener("click", (e) => {
-    removeBook(e.target.id);
+    removeBook(e.target.getAttribute("book-id"));
   });
   newRow.appendChild(removeButton);
 }
