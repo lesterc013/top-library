@@ -109,6 +109,6 @@ tr:hover {
   background-color: rgb(61, 129, 255);
 }
 
-.remove-book-button {
+tr > button {
   margin-left: 1rem;
 }

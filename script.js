@@ -15,6 +15,10 @@ Book.prototype.getInfo = function () {
   return `${this.title} by ${this.author}, ${this.numPages} pages, ${this.hasRead ? "read already" : "not read yet"}`;
 };
 
+Book.prototype.toggleRead = function () {
+  this.hasRead = !this.hasRead;
+};
+
 const myLibrary = {};
 
 // To dynamically control the table header and the data for that header
@@ -44,6 +48,21 @@ function createBookRowData(bookId, book) {
   });
 
   // Add a toggle read button here
+  const toggleReadButton = document.createElement("button");
+  toggleReadButton.innerText = "Toggle Read";
+  toggleReadButton.className = "toggle-read-book-button";
+  toggleReadButton.setAttribute("book-id", bookId);
+  toggleReadButton.type = "button";
+  // Whats the event listener?
+  toggleReadButton.addEventListener("click", (e) => {
+    // Find the Book based on the book-id in the myLibrary
+    const book = myLibrary[e.target.getAttribute("book-id")];
+    // Call the Book's specific method to toggle the read status
+    book.toggleRead();
+    // Repopulate the table?
+    populateTable();
+  });
+  newRow.appendChild(toggleReadButton);
 
   // Add the remove book button to the end of the row - id is the corresponding bookId
   const removeButton = document.createElement("button");
@@ -59,6 +78,8 @@ function createBookRowData(bookId, book) {
 
 // To populate the table td based on the books in the library
 function populateTable() {
+  // Clear the table
+  tableBody.replaceChildren();
   Object.keys(myLibrary).forEach((id) => {
     createBookRowData(id, myLibrary[id]);
   });
@@ -67,8 +88,6 @@ function populateTable() {
 // To remove a book from the library, then repopulate the table.
 function removeBook(bookId) {
   delete myLibrary[bookId];
-  // Clear the table
-  tableBody.replaceChildren();
   // Repopulate the table
   populateTable();
 }
