@@ -35,13 +35,13 @@ addBookToLibrary("1984", "George Orwell", 328);
 addBookToLibrary("The Pragmatic Programmer", "David Thomas", 352);
 
 // To dynamically control the table header and the data for that header
-const columns = [
-  { header: "S/No.", bookProp: null },
-  { header: "Title", bookProp: "title" },
-  { header: "Author", bookProp: "author" },
-  { header: "Number of Pages", bookProp: "numPages" },
-  { header: "Read Before", bookProp: "hasRead" },
-  { header: "Id", bookProp: "id" },
+const tableHeaders = [
+  { header: "S/No.", bookProperty: null },
+  { header: "Title", bookProperty: "title" },
+  { header: "Author", bookProperty: "author" },
+  { header: "Number of Pages", bookProperty: "numPages" },
+  { header: "Read Before", bookProperty: "hasRead" },
+  { header: "Id", bookProperty: "id" },
 ];
 
 // CREATE THE TABLE HEADER FIRST
@@ -49,7 +49,7 @@ const tableHead = document.querySelector("thead");
 // Create a new row
 const headerRow = tableHead.insertRow();
 // Add the th's and their text content
-columns.forEach((colObj) => {
+tableHeaders.forEach((colObj) => {
   let th = document.createElement("th");
   th.textContent = colObj.header;
   headerRow.appendChild(th);
@@ -58,31 +58,28 @@ columns.forEach((colObj) => {
 // Global count of books
 let count = 1;
 
-// CREATE THE TABLE BODY
+// Initial population of books
 const tableBody = document.querySelector("tbody");
 
-// // Write a function to display each book on the html page
-// // Gonna use a table to practice displaying standard data
-function addBookData() {
-  myLibrary.forEach((book) => {
-    // Create the new tr
-    const newRow = tableBody.insertRow();
+function createBookRowData(book) {
+  const newRow = tableBody.insertRow();
+  tableHeaders.forEach((tableHeaderData) => {
+    const cellData = newRow.insertCell();
 
-    // Using every header and bookProp to figure out which data to place where
-    columns.forEach((colObj) => {
-      const cellData = newRow.insertCell();
-
-      if (!colObj.bookProp) {
-        cellData.textContent = count;
-        count++;
-      } else {
-        cellData.textContent = book[colObj.bookProp];
-      }
-    });
+    if (!tableHeaderData.bookProperty) {
+      cellData.textContent = count;
+      count++;
+    } else {
+      cellData.textContent = book[tableHeaderData.bookProperty];
+    }
   });
 }
 
-addBookData();
+function showInitialBooks() {
+  myLibrary.forEach((book) => {
+    createBookRowData(book);
+  });
+}
 
 // CONTROLLING OPEN AND CLOSING THE NEW BOOK MODAL
 const newBookModal = document.querySelector(".new-book-modal");
@@ -94,3 +91,8 @@ openModalButton.addEventListener("click", () => {
 });
 
 closeModalButton.addEventListener("click", () => newBookModal.close());
+
+// ON MODAL FORM SUBMIT
+// TODO
+
+showInitialBooks();
