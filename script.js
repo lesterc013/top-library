@@ -55,13 +55,15 @@ columns.forEach((colObj) => {
   headerRow.appendChild(th);
 });
 
+// Global count of books
+let count = 1;
+
 // CREATE THE TABLE BODY
 const tableBody = document.querySelector("tbody");
 
 // // Write a function to display each book on the html page
 // // Gonna use a table to practice displaying standard data
 function addBookData() {
-  let count = 1;
   myLibrary.forEach((book) => {
     // Create the new tr
     const newRow = tableBody.insertRow();
@@ -82,7 +84,7 @@ function addBookData() {
 
 addBookData();
 
-// CONTROLLING OPEN AND CLOSING THE MODAL
+// CONTROLLING OPEN AND CLOSING THE NEW BOOK MODAL
 const newBookModal = document.querySelector(".new-book-modal");
 const openModalButton = document.querySelector(".open-modal-button");
 const closeModalButton = document.querySelector(".close-modal-button");
