@@ -1,23 +1,19 @@
-// Write a constructor for making “Book” objects. We will revisit this in the next project. Your book objects should have the book’s title, author, the number of pages, and whether or not you have read the book.
-function Book(title, author, numPages, hasRead) {
-  if (!new.target) {
-    throw Error("Must use new operator to create Book object.");
+class Book {
+  constructor(title, author, numPages, hasRead) {
+    this.title = title;
+    this.author = author;
+    this.numPages = numPages;
+    this.hasRead = hasRead;
   }
 
-  this.title = title;
-  this.author = author;
-  this.numPages = numPages;
-  this.hasRead = hasRead;
+  getInfo = function () {
+    return `${this.title} by ${this.author}, ${this.numPages} pages, ${this.hasRead ? "read already" : "not read yet"}`;
+  };
+
+  toggleRead = function () {
+    this.hasRead = !this.hasRead;
+  };
 }
-
-// To provide some info on the book
-Book.prototype.getInfo = function () {
-  return `${this.title} by ${this.author}, ${this.numPages} pages, ${this.hasRead ? "read already" : "not read yet"}`;
-};
-
-Book.prototype.toggleRead = function () {
-  this.hasRead = !this.hasRead;
-};
 
 const myLibrary = new Map();
 
